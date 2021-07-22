@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>~</title>
+		<link rel="preconnect" href="https://fonts.googleapis.com">
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+		<!-- <link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet"> -->
+		<!-- <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap" rel="stylesheet"> -->
+		<script type="text/javascript">
+			function fadeInPage() {
+				if (!window.AnimationEvent) {
+					return;
+				}
+				var fader = document.getElementById('fader');
+					fader.classList.add('fade-out');
+			}
+
+			document.addEventListener('DOMContentLoaded', function() {
+				if (!window.AnimationEvent) {
+					return; 
+				}
+				
+				var anchors = document.getElementsByTagName('a');
+			    
+			    for (var idx=0; idx<anchors.length; idx+=1) {
+			    	if (anchors[idx].hostname !== window.location.hostname || anchors[idx].pathname === window.location.pathname) {
+						continue;
+					}
+				
+				anchors[idx].addEventListener('click', function(event) {
+			    	var fader = document.getElementById('fader'), anchor = event.currentTarget;
+			        var listener = function() {
+			            window.location = anchor.href;
+			            fader.removeEventListener('animationend', listener);
+			        };
+			        fader.addEventListener('animationend', listener);
+			        event.preventDefault();
+			        fader.classList.add('fade-in');
+			        });
+			    }
+			});
+
+			window.addEventListener('pageshow', function (event) {
+				if (!event.persisted) {
+			    	return;
+				}
+
+				var fader = document.getElementById('fader');
+			  	fader.classList.remove('fade-in');
+			});
+		</script>
+		<style type="text/css">
+			/*Change these variables to match with your setup. These colors work for
+			  the image I used and my overall desktop theme (see here:
+			  https://i.imgur.com/gxMdNKi.png).*/
+			:root {
+				--red: #9464a8;
+				--white: #d3ccdc;
+				--yellow: #448bce;
+				--search: #bcdff0;
+
+				--bg: #24252c;
+				--fg: #313749;
+
+				--search-bg: rgba(255, 255, 255, 0);
+				}
+
+			.lightmode {
+				--red: #5f605b;
+				--white: #7f807b;
+				--yellow: #494846;
+				--search: #dad9a9;
+
+				--bg: #f0f0f0;
+				--fg: #e7e7e7;
+
+				--search-bg: rgba(255, 255, 255, 0);
+			}
+
+			body {
+				background-color: var(--bg);
+				/* font-family: 'Share Tech Mono', monospace; */
+				font-family: 'VT323', monospace;
+				font-size: 16px;
+				color: var(--yellow);
+				transition: all 0.25s;
+			}
+
+			ul {
+				list-style-type: none;
+				text-align: left;
+				padding: 2px 15px;
+			}
+
+			p[class=credits] > a {
+				position: fixed;
+				bottom: 7px;
+				right: 10px;
+			}
+
+			/*Form based off of Vallode's work:
+			  https://codepen.io/Vallode/pen/abdYLOd*/
+			form {
+				margin: 1em 0;
+				position: relative;
+			}
+
+			form input[type="search"] {
+				background-color: var(--search-bg);
+				border: none;
+				box-sizing: border-box;
+				font-weight: bold;
+				font: inherit;
+				margin-left: 12px;
+				width: 95%;
+				transition: all 0.2s;
+				color: var(--search);
+			}	
+
+			form input[type="text"] {
+				background-color: var(--search-bg);
+				border: none;
+				box-sizing: border-box;
+				font-weight: bold;
+				font: inherit;
+				margin-left: 12px;
+				width: 95%;
+				transition: all 0.2s;
+				color: var(--search);
+			}
+
+			form label {
+				color: var(--search);
+				position: absolute;
+				transition: all 0.4s;
+			}
+
+			form:focus-within input::placeholder {
+				opacity: 0;
+			}
+
+			#main_window {
+				background-color: var(--fg);
+				width: 910px;
+				padding-right: 40px;
+				margin: 0;
+				position: absolute;
+				top: 50%;
+				left: 50%;
+				-ms-transform: translate(-50%, -50%);
+				transform: translate(-50%, -50%);
+				transition: all 0.25s;
+			}
+
+			#content {
+				padding-top: 30px;
+				margin-left: 300px;
+			}
+
+			#links_container {
+				display: flex;
+				flex-wrap: wrap;
+			}
+
+			#links_container li, a {
+				color: var(--white);
+				text-decoration: none;
+				transition: all 0.4s;
+			}
+
+			#links_container a:hover {
+				color: var(--red);
+				transition: all 0.4s;
+			}
+
+			.subtitle {
+				font-weight: bold;
+				color: var(--red);
+			}
+
+			.title {
+				font-weight: bold;
+				font-style: italic;
+			}
+
+			.image {
+				max-width: 250px;
+				float: left;
+			}
+
+			.bottom {
+				position: fixed;
+				bottom: 0;
+				font-size: 0.52em;
+			}
+
+			.bottom a {
+				text-decoration: none;
+				color: var(--yellow);
+			}
+
+			.bottom a:hover {
+				text-decoration: underline;
+			}
+
+			#fader {
+			    position: fixed;
+			    top: 0;
+			    left: 0;
+			    width: 100%;
+			    height: 100%;
+			    z-index: 999999;
+			    pointer-events: none;
+			    background: var(--bg);
+			    animation-duration: 500ms;
+			    animation-timing-function: ease-in-out;
+			}
+
+			@keyframes fade-out {
+			    from { opacity: 1 }
+			      to { opacity: 0 }
+			}
+
+			@keyframes fade-in {
+			    from { opacity: 0 }
+			      to { opacity: 1 }
+			}
+
+			#fader.fade-out {
+			    opacity: 0;
+			    animation-name: fade-out;
+			}
+
+			#fader.fade-in {
+			    opacity: 1;
+			    animation-name: fade-in;
+			}
+
+			@media (max-width: 980px) {
+				img#leftImg {
+			    	height: 280px;
+			  	}
+
+			  	#main_window {
+					width: 833px;
+					padding-right: 0;
+				}
+
+				ul {
+					padding-top: 0px;
+					margin-top: -7px;
+				}
+
+				#content {
+					padding-top: 0px;
+					margin-left: 220px;
+				}
+			}
+
+			@media (max-width: 833px) {
+				img#leftImg {
+					display: none;
+				}
+
+				#main_window {
+					width: 650px;
+				}
+
+				#content {
+					margin-left: 20px;
+				}
+			}
+
+			@media (max-width: 650px) {
+				#main_window {
+					width: 100%;
+				}
+			}
+
+			@media (max-width: 450px) {
+				form input[type="search"] {
+					width: 90%;
+				}
+			}
+
+			@media (max-width: 450px) {
+				form input[type="text"] {
+					width: 90%;
+				}
+			}
+		</style>
+
+	</head>
+
+	<body>
+		<svg id="fader"></svg>
+        <script>fadeInPage();</script>
+
+		<div id="main_window">
+			<img id=leftImg src="https://imgur.com/LaPFabt.png" class="image">
+			
+			<!-- <img id=leftImg src="https://i.imgur.com/YFvTLmg.png" class="image"> -->
+
+			<div id="content">
+				<h1 class="title">Welcome</h1>
+				<div id="date">
+					<script type="text/javascript">
+						function doDate() {
+							var str = "";
+							var months = new Array("January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December");
+							var clock = new Date();
+							var now = new Date();
+
+							str += months[clock.getMonth()] + " " + now.getDate() + ", " + clock.getFullYear() + " | " + ("0" + now.getHours()).slice(-2) +":" + ("0" + now.getMinutes()).slice(-2) + ":" + ("0" + now.getSeconds()).slice(-2);
+							document.getElementById("date").innerHTML = str;
+						}
+						setInterval(doDate, 1000);
+						doDate();
+					</script>
+				</div>
+				<div id="web_search">
+					<script type="text/javascript">
+						function redirect() {
+							var redirect = "https://www.google.com/search?q="+ document.getElementById("q").value;
+							window.location.href = redirect;
+							return false;
+						}
+					</script>
+					<form method="GET" autocomplete="off" onsubmit="return redirect();">
+						<label for="q">:</label>
+						<input autofocus
+			        	 		id="q"
+			         			name="q"
+			         			type="text"
+			         			placeholder="search...">
+						<input autofocus
+							style="visibility: hidden;"					
+							id="qr"
+							name="qr"
+							type="submit"
+							placeholder="search...">
+					</form>
+				</div>
+
+				<nav>
+					<div id=links_container>
+						<ul>
+							<a class="subtitle">Studies</a>
+								<li><a href="https://www.unito.it/">Unito</a></li>
+								<li><a href="http://informatica.i-learn.unito.it/">Moodle</a></li>
+								<li><a href="https://esami.i-learn.unito.it/">Esami</a></li>
+						</ul>
+						<ul>
+							<a class="subtitle">Music</a>
+								<li><a href="https://bandcamp.com/">Bandcamp</a></li>
+								<li><a href="https://soundcloud.com/">Soundcloud</a></li>
+								<li><a href="https://www.youtube.com/">YouTube</a></li>
+						</ul>
+						<ul>
+							<a class="subtitle">Vidya</a>
+								<li><a href="https://filelist.io/index.php">FileList</a></li>
+								<li><a href="https://fitgirl-repacks.site/">Fitgirl</a></li>
+								<li><a href="https://www.reddit.com/r/CrackWatch/">Crackwatch</a></li>
+						</ul>
+						<ul>
+							<a class="subtitle">Misc</a>
+								<li><a href="https://mail.protonmail.com/inbox">Protonmail</a></li>
+								<li><a href="https://mangadex.org/">Mangadex</a></li>
+								<li><a href="https://www.twitch.tv/directory/following">Twitch</a></li>
+						</ul>
+						<ul>
+							<a class="subtitle">Shopping</a>
+								<li><a href="https://trade.aliexpress.com/orderList.htm?spm=a2g0o.pay_result.1000002.14.3080u1wWu1wWJu&tracelog=ws_topbar">Aliexpress</a></li>
+								<li><a href="https://www.amazon.it/">Amazon</a></li>
+						</ul>
+					</div>
+				</nav>
+			</div>
+		</div>
+
+		<div class="bottom">
+			<p class="credits">
+				<a href="https://imgur.com/yC3kwi1">Art on Imgur</a>
+			</p>
+
+			<div class="contacts">
+				<p>
+					<a href="https://github.com/Oselium/dotfiles">Github configs</a> | 
+					<span id="light-mode-toggle" class="light-mode-toggle">Switch themes</span>
+				</p>
+			</div>
+		</div>
+
+		<script type="text/javascript">
+			/*
+			  Thanks to POWELL Kevin for his YouTube tutorial.
+			  https://www.youtube.com/watch?v=wodWDIdV9BY
+			*/
+
+			let lightMode = localStorage.getItem('lightMode');
+			const lightModeToggle = document.querySelector('#light-mode-toggle');
+
+			const enableLightMode = () => {
+				document.body.classList.add('lightmode');
+				localStorage.setItem('lightMode', 'enabled');
+			}
+
+			const disableLightMode = () => {
+				document.body.classList.remove('lightmode');
+				localStorage.setItem('lightMode', null);
+			}
+
+			if (lightMode === 'enabled') {
+				enableLightMode();
+			}
+
+			lightModeToggle.addEventListener('click', () => {
+				lightMode = localStorage.getItem('lightMode');
+				if (lightMode !== 'enabled') {
+					enableLightMode();
+					console.log(lightMode);
+				} else {
+					disableLightMode();
+					console.log(lightMode);
+				}
+			});
+		</script>
+	</body>
+</html>
