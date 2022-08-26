@@ -4,7 +4,7 @@ It's a customized version of [wolfy's minimal page](https://gitlab.com/wolfiy/wl
 
 ![](images/image_1.png)
 
-### Use
+### How to
 You can use the single page version as-is with FireFox __on Windows__ using this [Firefox configuration](https://old.reddit.com/r/startpages/comments/g3qndt/psa_how_to_set_a_custom_new_tab_page_in_firefox/ "trick"):
 
 1) Open the Firefox installation folder (ex. "C:\Program Files\Mozilla Firefox\")
