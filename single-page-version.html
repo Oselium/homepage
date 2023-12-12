@@ -49,11 +49,13 @@
 				var fader = document.getElementById('fader');
 			  	fader.classList.remove('fade-in');
 			});
+
+			document.addEventListener('DOMContentLoaded', function () {
+				const currentTheme = localStorage.getItem('lightMode') === 'enabled' ? 'lightmode' : 'darkmode';
+				changeImage(currentTheme);
+			});
 		</script>
 		<style type="text/css">
-			/*Change these variables to match with your setup. These colors work for
-			  the image I used and my overall desktop theme (see here:
-			  https://i.imgur.com/gxMdNKi.png).*/
 			:root {
 				--red: #9464a8;
 				--white: #d3ccdc;
@@ -98,9 +100,7 @@
 				bottom: 7px;
 				right: 10px;
 			}
-
-			/*Form based off of Vallode's work:
-			  https://codepen.io/Vallode/pen/abdYLOd*/
+			
 			form {
 				margin: 1em 0;
 				position: relative;
@@ -299,8 +299,6 @@
 
 		<div id="main_window">
 			<img id=leftImg src="https://imgur.com/LaPFabt.png" class="image">
-			
-			<!-- <img id=leftImg src="https://i.imgur.com/YFvTLmg.png" class="image"> -->
 
 			<div id="content">
 				<h1 class="title">Welcome</h1>
@@ -319,15 +317,19 @@
 						doDate();
 					</script>
 				</div>
-				<div id="web_search">
+				<br>
+				<br>
+				<br>
+				<!-- <div id="web_search">
 					<script type="text/javascript">
 						function redirect() {
 							var redirect = "https://www.google.com/search?q="+ document.getElementById("q").value;
+							console.log(redirect);
 							window.location.href = redirect;
 							return false;
 						}
 					</script>
-					<form method="GET" autocomplete="off" onsubmit="return redirect();">
+					<form method="GET" autocomplete="off" onsubmit="redirect();">
 						<label for="q">:</label>
 						<input autofocus
 			        	 		id="q"
@@ -341,36 +343,35 @@
 							type="submit"
 							placeholder="search...">
 					</form>
-				</div>
+				</div> -->
 
 				<nav>
 					<div id=links_container>
 						<ul>
-							<a class="subtitle">University</a>
-								<li><a href="https://www.unito.it/">Unito</a></li>
-								<li><a href="http://informatica.i-learn.unito.it/">Moodle</a></li>
-								<li><a href="https://esami.i-learn.unito.it/">Esami</a></li>
+						    <a class="subtitle">DEFAULT1</a>
+						    <li><a href="https://www.google.com/">DEFAULT</a></li>
+						    <li><a href="https://www.google.com/">DEFAULT</a></li>
 						</ul>
 						<ul>
-							<a class="subtitle">Personal</a>
-								<li><a href="https://github.com/Oselium">Github</a></li>
-								<li><a href="https://mail.protonmail.com/inbox">Protonmail</a></li>
-								<li><a href="https://mail.google.com/mail/u/0/">Gmail</a></li>
+						    <a class="subtitle">DEFAULT2</a>
+						    <li><a href="https://www.google.com/">DEFAULT</a></li>
+						    <li><a href="https://www.google.com/">DEFAULT</a></li>
+						    <li><a href="https://www.google.com/">DEFAULT</a></li>
+						    <li><a href="https://www.google.com/">DEFAULT</a></li>
 						</ul>
 						<ul>
-							<a class="subtitle">Dev</a>
-								<li><a href="https://archlinuxarm.org/">ArchARM</a></li>
-								<li><a href="https://192.168.1.148/homepage">Server</a></li></ul>
-						<ul>
-							<a class="subtitle">Misc</a>
-								<li><a href="https://bandcamp.com/">Bandcamp</a></li>
-								<li><a href="https://www.twitch.tv/directory/following">Twitch</a></li>
-								<li><a href="https://mangadex.org/">Mangadex</a></li>
+						    <a class="subtitle">DEFAULT3</a>
+						    <li><a href="https://www.google.com/">DEFAULT</a></li>
+						    <li><a href="https://www.google.com/">DEFAULT</a></li>
+						    <li><a href="https://www.google.com/">DEFAULT</a></li>
+						    <li><a href="https://www.google.com/">DEFAULT</a></li>
+						    <li><a href="https://www.google.com/">DEFAULT</a></li>
 						</ul>
 						<ul>
-							<a class="subtitle">Shopping</a>
-								<li><a href="https://trade.aliexpress.com/orderList.htm?spm=a2g0o.pay_result.1000002.14.3080u1wWu1wWJu&tracelog=ws_topbar">Aliexpress</a></li>
-								<li><a href="https://www.amazon.it/">Amazon</a></li>
+						    <a class="subtitle">DEFAULT4</a>
+						    <li><a href="https://www.google.com/">DEFAULT</a></li>
+						    <li><a href="https://www.google.com/">DEFAULT</a></li>
+						    <li><a href="https://www.google.com/">DEFAULT</a></li>
 						</ul>
 					</div>
 				</nav>
@@ -379,7 +380,7 @@
 
 		<div class="bottom">
 			<p class="credits">
-				<a href="https://imgur.com/yC3kwi1.png">Art on Imgur</a>
+				<a id="artOnImgurLink" href="#">Art on Imgur</a>
 			</p>
 
 			<div class="contacts">
@@ -391,10 +392,11 @@
 		</div>
 
 		<script type="text/javascript">
-			/*
-			  Thanks to POWELL Kevin for his YouTube tutorial.
-			  https://www.youtube.com/watch?v=wodWDIdV9BY
-			*/
+			const imageUrls = {
+				darkmode: 'https://imgur.com/yC3kwi1.png',
+				lightmode: 'https://i.imgur.com/hh86MKp.jpg'
+				// Add more themes and corresponding image URLs as needed
+			};
 
 			let lightMode = localStorage.getItem('lightMode');
 			const lightModeToggle = document.querySelector('#light-mode-toggle');
@@ -402,11 +404,21 @@
 			const enableLightMode = () => {
 				document.body.classList.add('lightmode');
 				localStorage.setItem('lightMode', 'enabled');
+				changeImage('lightmode');
 			}
 
 			const disableLightMode = () => {
 				document.body.classList.remove('lightmode');
 				localStorage.setItem('lightMode', null);
+				changeImage('darkmode');
+			}
+
+			const changeImage = (theme) => {
+				const leftImg = document.getElementById('leftImg');
+				const artOnImgurLink = document.getElementById('artOnImgurLink');
+
+				leftImg.src = imageUrls[theme];
+        		artOnImgurLink.href = imageUrls[theme];
 			}
 
 			if (lightMode === 'enabled') {
